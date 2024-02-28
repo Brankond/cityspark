@@ -17,16 +17,17 @@ public class EventController {
     EventService eventService;
 
     @PostMapping("/create/")
-    boolean createEvent(@RequestBody Event event) {
+    public boolean createEvent(@RequestBody Event event) {
+
+        boolean createResult = false;
 
         try{
-
+            createResult = eventService.createEvent(event);
         }catch (Exception e) {
-
+            log.error("Fail to create event: {}", e.getMessage());
         }
 
-
-        return false;
+        return createResult;
     }
 
 
