@@ -16,7 +16,7 @@ public class EventController {
     @Autowired
     EventService eventService;
 
-    @PostMapping("/create/")
+    @PostMapping("/create")
     public boolean createEvent(@RequestBody Event event) {
 
         boolean createResult = false;
