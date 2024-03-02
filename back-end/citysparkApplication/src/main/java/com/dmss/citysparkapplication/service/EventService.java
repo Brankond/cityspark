@@ -4,4 +4,6 @@ import com.dmss.citysparkapplication.model.Event;
 
 public interface EventService {
     public boolean createEvent(Event event);
+
+    Event updateEvent(Integer id, Event updatedEvent);
 }
