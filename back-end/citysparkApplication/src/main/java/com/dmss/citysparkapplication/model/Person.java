@@ -25,5 +25,4 @@ public class Person {
     private LocalDateTime birthday;
     private LocalDateTime created_dt;
     private LocalDateTime updated_dt;
-
 }
