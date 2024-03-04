@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -17,7 +19,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void update(Person person) {
-        person.setCreatedDt(LocalDateTime.now());
         person.setUpdatedDt(LocalDateTime.now());
 
         // Assume the person model from frontend have all the required fields. Otherwise, need to do field check here.
