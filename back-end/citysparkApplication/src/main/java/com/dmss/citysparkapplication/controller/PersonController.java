@@ -22,13 +22,34 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
+    /**
+     * Get person information details with person id
+     * @param id
+     * @return Result model with person information
+     */
     @GetMapping("/{id}")
     public Result getPerson(@PathVariable Integer id) {
 
-        log.info("Get person information with id {}", id);
-
-        Person person = personService.get(id);
-
-        return Result.success(person);
+        try {
+            Person person = personService.get(id);
+            log.info("Get person information with id {}", id);
+            return Result.success(person);
+        } catch (Exception e){
+            log.error("Fail to get person detail with id {}, {}", id, e.getMessage());
+            return Result.error(e.getMessage());
+        }
     }
+
+    @PutMapping
+    public Result update(@RequestBody Person person) {
+        try {
+            personService.update(person);
+            log.info("Updated person information with id {}", person.getId());
+            return Result.success();
+        } catch (Exception e){
+            log.error("Fail to update person detail with id {}, {}", person.getId(), e.getMessage());
+            return Result.error(e.getMessage());
+        }
+    }
+
 }

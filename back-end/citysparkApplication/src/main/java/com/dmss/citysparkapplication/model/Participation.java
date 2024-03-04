@@ -18,11 +18,11 @@ public class Participation {
 
     @ManyToOne
     @JoinColumn(name = "PERSON_ID")
-    private Long personId;
+    private Person person;
 
     @ManyToOne
     @JoinColumn(name = "EVENT_ID")
-    private Long eventId;
+    private Event event;
 
     @Column(name = "ROLE")
     private String role;
