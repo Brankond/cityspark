@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
     Event findById(Integer id);
+
+    void deleteById(Integer id);
 }

@@ -7,10 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service()
+@Transactional
 public class EventServiceImpl implements EventService {
     private static Logger log = LoggerFactory.getLogger(EventServiceImpl.class);
 
@@ -39,7 +42,7 @@ public class EventServiceImpl implements EventService {
             log.error("Cannot find event with id {}, {}",updatedEvent.getId(),e.getMessage());
         }
         existEvent.setTitle(updatedEvent.getTitle());
-        existEvent.setUpdatedDT(updatedEvent.getUpdatedDT());
+        existEvent.setUpdatedDT(LocalDateTime.now());
         existEvent.setEventStartDT(updatedEvent.getEventEndDT());
         existEvent.setEventEndDT(updatedEvent.getEventStartDT());
         existEvent.setDescription(updatedEvent.getDescription());
@@ -48,5 +51,19 @@ public class EventServiceImpl implements EventService {
         existEvent.setStatus(updatedEvent.getStatus());
 
         return eventRepo.save(existEvent);
+    }
+
+    @Override
+    public boolean deleteEvent(Integer id) {
+        boolean deleteResult = false;
+
+        try {
+            eventRepo.deleteById(id);
+            deleteResult = true;
+        } catch (Exception e) {
+            log.error("Fail to delete an event in database, {}", e.getMessage());
+        }
+
+        return deleteResult;
     }
 }

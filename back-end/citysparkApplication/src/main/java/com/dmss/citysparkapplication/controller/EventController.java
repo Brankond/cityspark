@@ -55,17 +55,16 @@ public class EventController {
         return searchedEvent;
     }
 
-    @GetMapping("/delete/{eventId}")
-    public boolean deleteEvent(@PathVariable long eventId) {
+    @GetMapping("/delete/{id}")
+    public boolean deleteEvent(@PathVariable Integer id) {
         boolean deleteResult = false;
 
         try{
-
+            deleteResult = eventService.deleteEvent(id);
         }catch (Exception e) {
-
+            log.error("Fail to delete event: {}", e.getMessage());
         }
         return deleteResult;
     }
-
 
 }

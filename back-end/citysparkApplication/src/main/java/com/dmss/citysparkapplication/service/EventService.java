@@ -6,4 +6,6 @@ public interface EventService {
     public boolean createEvent(Event event);
 
     Event updateEvent(Integer id, Event updatedEvent);
+
+    boolean deleteEvent(Integer id);
 }
