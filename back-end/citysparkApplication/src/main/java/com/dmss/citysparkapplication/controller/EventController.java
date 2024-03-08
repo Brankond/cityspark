@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.NoSuchElementException;
-
 @RestController
 @RequestMapping("/cityspark/event")
 public class EventController {
 
-    private static Logger log = LoggerFactory.getLogger(EventController.class);
+    private static final Logger log = LoggerFactory.getLogger(EventController.class);
 
     @Autowired
     EventService eventService;

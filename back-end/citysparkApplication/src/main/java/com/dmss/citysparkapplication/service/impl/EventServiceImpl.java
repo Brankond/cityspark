@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
-
 @Service()
 @Transactional
 public class EventServiceImpl implements EventService {
-    private static Logger log = LoggerFactory.getLogger(EventServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(EventServiceImpl.class);
 
     @Autowired
     private EventRepository eventRepo;
