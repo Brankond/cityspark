@@ -2,4 +2,5 @@
 set -xe
 
 # Start Tomcat, the application server.
-service tomcat start
+cd /opt && sudo chown -R tomcat tomcat/
+systemctl start tomcat
