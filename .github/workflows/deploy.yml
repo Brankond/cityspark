@@ -1,10 +1,13 @@
 name: Build and Deploy
 
 on:
-  workflow_dispatch: {}
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
 
 env:
-  applicationfolder: spring-boot-hello-world-example
+  applicationfolder: back-end/citysparkApplication
   AWS_REGION: ap-southeast-1
   S3BUCKET: city-spark-stack-webappdeploymentbucket-pekrbprslirn
 
