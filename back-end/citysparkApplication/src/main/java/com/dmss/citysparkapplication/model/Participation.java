@@ -16,13 +16,11 @@ public class Participation {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "PERSON_ID")
-    private Person person;
+    @Column(name = "PERSON_ID")
+    private Integer personId;
 
-    @ManyToOne
-    @JoinColumn(name = "EVENT_ID")
-    private Event event;
+    @Column(name = "EVENT_ID")
+    private Integer eventId;
 
     @Column(name = "ROLE")
     private String role;
