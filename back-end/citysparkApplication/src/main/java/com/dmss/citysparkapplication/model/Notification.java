@@ -1,9 +1,6 @@
 package com.dmss.citysparkapplication.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Notification {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
 
@@ -30,10 +28,10 @@ public class Notification {
     private String content;
 
     @Column(name = "CREATED_DT")
-    private LocalDateTime created_dt;
+    private LocalDateTime created_dt = LocalDateTime.now();
 
     @Column(name = "UPDATED_DT")
-    private LocalDateTime updated_dt;
+    private LocalDateTime updated_dt = LocalDateTime.now();
 
     @Column(name = "EVENT_ID")
     private Integer event_id;

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -29,8 +31,8 @@ public class Participation {
     private String status;
 
     @Column(name = "CREATED_DT")
-    private String createdDate;
+    private LocalDateTime createdDT = LocalDateTime.now();
 
     @Column(name = "UPDATED_DT")
-    private String updatedDate;
+    private LocalDateTime updatedDT = LocalDateTime.now();
 }

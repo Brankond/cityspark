@@ -1,6 +1,7 @@
 package com.dmss.citysparkapplication.controller;
 
 
+import com.dmss.citysparkapplication.model.Notification;
 import com.dmss.citysparkapplication.model.Participation;
 import com.dmss.citysparkapplication.repository.ParticipationRepository;
 import com.dmss.citysparkapplication.service.ParticipationService;
@@ -23,12 +24,13 @@ public class ParticipationController {
     @Autowired
     ParticipationRepository participationRepo;
 
-    @PostMapping
+    @PostMapping("/register")
     public boolean registerEvent(@RequestBody Participation participation) { //add organizer or attendee
         boolean result = false;
 
         try{
             result = participationService.registerEvent(participation);
+            Notification notification = participationService.sendNotification(participation, true);
 
         }catch (Exception e){
             log.error("Fail to register the event for the user, {}", e.getMessage());
@@ -55,7 +57,7 @@ public class ParticipationController {
         List<Participation> searchedParticipation = new ArrayList<>();
 
         try {
-            searchedParticipation = participationRepo.findByPersonId(eventId);
+            searchedParticipation = participationRepo.findByEventId(eventId);
         }catch (Exception e){
             log.error("Fail to find registration by event id: {}", e.getMessage());
         }
@@ -68,6 +70,8 @@ public class ParticipationController {
         boolean result = false;
 
         try {
+            Participation participation = participationRepo.findById(id);
+            Notification notification = participationService.sendNotification(participation, false);
             result = participationService.cancelRegistration(id);
         }catch (Exception e) {
             log.error("Fail to cancel registration: {}", e.getMessage());
