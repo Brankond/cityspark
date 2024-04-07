@@ -5,7 +5,10 @@ interface Event {
   id: number;
   title: string;
   type: string;
-  status: string;
+  location: string;
+  description: string;
+  eventStartDT: Date;
+  eventEndDT: Date;
 }
 
 const EventList = async () => {
