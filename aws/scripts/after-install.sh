@@ -7,4 +7,4 @@ aws s3 cp s3://city-spark-stack-webappdeploymentbucket-pekrbprslirn/citysparkApp
 
 
 # Ensure the ownership permissions are correct.
-chown -R tomcat:tomcat /usr/local/tomcat9/webapps
+sudo chown -R tomcat:tomcat /usr/local/tomcat9/webapps
