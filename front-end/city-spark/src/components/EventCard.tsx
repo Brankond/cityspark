@@ -39,7 +39,6 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
         <div className="card-actions justify-end">
           <button className="btn btn-outline btn-warning" onClick={handleUpdateButtonClick}>Update</button>
           <button className="btn btn-outline btn-error" onClick={handleDeleteButtonClick}>Delete</button>
-          <button className="btn btn-outline btn-error">Delete</button>
           <button className="btn btn-outline" onClick={handleRegisterButtonClick}>Register Now</button>
         </div>
       </div>
