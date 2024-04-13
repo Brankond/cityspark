@@ -12,7 +12,7 @@ interface Event {
 }
 
 const EventList = async () => {
-  const res = await fetch('http://localhost:8080/cityspark/event/reviewall');
+  const res = await fetch(`http://localhost:8080/cityspark/event/reviewall?${Date.now()}`);
   const events: Event[] = await res.json();
   return (
     <div>
