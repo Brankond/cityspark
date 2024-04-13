@@ -5,7 +5,9 @@ import com.dmss.citysparkapplication.model.Participation;
 
 public interface ParticipationService {
 
-    boolean registerEvent(Participation participation);
+    Participation registerEventAsOrganizer(Integer eventId, String personContactNo);
+
+    Participation registerEventAsAttendee(Integer eventId, String personContactNo);
 
     public boolean cancelRegistration(Integer id);
 

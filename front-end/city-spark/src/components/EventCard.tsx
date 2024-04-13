@@ -19,6 +19,9 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
     router.push(`/events/create?eventId=${id}&isUpdate=true`);
     
   };
+  const handleRegisterButtonClick = () => {
+    router.push(`/events/register?eventId=${id}`);
+  };
   return (
     <div className="card w-96 bg-base-100 shadow-xl mb-4">
       <div className="card-body">
@@ -31,7 +34,7 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
         <div className="card-actions justify-end">
           <button className="btn btn-outline btn-warning" onClick={handleUpdateButtonClick}>Update</button>
           <button className="btn btn-outline btn-error">Delete</button>
-          <button className="btn btn-outline">Register Now</button>
+          <button className="btn btn-outline" onClick={handleRegisterButtonClick}>Register Now</button>
         </div>
       </div>
     </div>
