@@ -14,9 +14,14 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationRepository notificationRepository;
 
     @Override
-    public void update(Notification notification) {
+    public void createOrUpdateNotification(Notification notification) {
         notification.setUpdated_dt(LocalDateTime.now());
 
         notificationRepository.save(notification);
+    }
+
+    @Override
+    public void updateStatus(Integer id, String status) {
+        notificationRepository.updateStatusById(id, status);
     }
 }
