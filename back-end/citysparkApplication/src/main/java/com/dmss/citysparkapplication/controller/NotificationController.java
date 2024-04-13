@@ -28,7 +28,7 @@ public class NotificationController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/updateStatus")
     public Result updateStatus(@RequestBody Notification notification) {
         try {
             notificationService.updateStatus(notification.getId(), notification.getStatus());
