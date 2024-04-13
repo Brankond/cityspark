@@ -16,11 +16,11 @@ const EventList = async () => {
   const events: Event[] = await res.json();
   return (
     <div>
-    <h2 className="text-xl font-bold mb-4">Event List</h2>
-    {events.map(event => (
-      <EventCard key={event.id} {...event} />
-    ))}
-  </div>
+      <h2 className="text-xl font-bold mb-4">Event List</h2>
+      {events.map(event => (
+        <EventCard key={event.id} {...event} />
+      ))}
+    </div>
   )
 }
 

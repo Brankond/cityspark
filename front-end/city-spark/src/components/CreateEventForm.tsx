@@ -1,17 +1,57 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const CreateEventForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+interface FormData {
+  title: string;
+  type: string;
+  location: string;
+  description: string;
+  eventStartDT: Date;
+  eventEndDT: Date;
+  status: string;
+}
+
+interface CreateEventFormProps {
+  eventId?: number; // Id of the event to update
+  isUpdate?: boolean; // Flag indicating if it's an update operation
+}
+
+const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) => {
+  
+  const [formData, setFormData] = useState<FormData>({
     title: '',
     type: '',
     location: '',
     description: '',
-    eventStartDT: '',
-    eventEndDT: '',
-    status:'',
+    eventStartDT: new Date(),
+    eventEndDT: new Date(),
+    status: '',
   });
+  useEffect(() => {
+    if (isUpdate && eventId) {
+      // Fetch event data from the backend to populate the form
+      fetchEventData(eventId);
+    }
+  }, [eventId, isUpdate]);
+
+  const fetchEventData = async (id: number) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/cityspark/event/review/${id}`);
+      const eventData = response.data;
+      setFormData({
+        title: eventData.title,
+        type: eventData.type,
+        location: eventData.location,
+        description: eventData.description,
+        eventStartDT: eventData.eventStartDT,
+        eventEndDT: eventData.eventEndDT,
+        status: eventData.status,
+      });
+    } catch (error) {
+      console.error('Error fetching event data:', error);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -27,17 +67,24 @@ const CreateEventForm: React.FC = () => {
         ...formData,
         status: 'active',
       };
-      const response = await axios.post('http://localhost:8080/cityspark/event/create', formDataWithStatus);
+      let response;
+      if (isUpdate && eventId) {
+        // Update existing event
+        response = await axios.post(`http://localhost:8080/cityspark/event/update/${eventId}`, formDataWithStatus);
+      } else {
+        // Create new event
+        response = await axios.post('http://localhost:8080/cityspark/event/create', formDataWithStatus);
+      }
       if (response.data) {
-        console.log('Event created successfully!');
+        console.log(isUpdate ? 'Event updated successfully!' : 'Event created successfully!');
         // Reset form fields after successful submission
         setFormData({
           title: '',
           type: '',
           location: '',
           description: '',
-          eventStartDT: '',
-          eventEndDT: '',
+          eventStartDT: new Date(),
+          eventEndDT: new Date(),
           status:'',
         });
       } else {
@@ -70,13 +117,13 @@ const CreateEventForm: React.FC = () => {
         <div className="label">
           <span className="label-text">Start Time</span>
         </div>
-        <input type="datetime-local" name="eventStartDT" value={formData.eventStartDT} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <input type="datetime-local" name="eventStartDT" value={formData.eventStartDT?.toLocaleString()} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
         <div className="label">
           <span className="label-text">End Time</span>
         </div>
-        <input type="datetime-local" name="eventEndDT" value={formData.eventEndDT} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <input type="datetime-local" name="eventEndDT" value={formData.eventEndDT?.toLocaleString()} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
       </label>
-      <button type="submit" className='btn btn-outline'>Create Event</button>
+      <button type="submit" className='btn btn-outline'>{isUpdate?'Update':'Create'}</button>
     </form>
     
   );
