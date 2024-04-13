@@ -1,4 +1,6 @@
+'use client';
 import React from 'react';
+import { useRouter } from 'next/navigation'
 
 interface Event {
   id: number;
@@ -11,6 +13,12 @@ interface Event {
 }
 
 const EventCard: React.FC<Event> = ({ id, title, type, location, description, eventStartDT, eventEndDT }) => {
+  const router = useRouter();
+  const handleUpdateButtonClick = () => {
+    // Navigate to the update page and pass eventId and isUpdate
+    router.push(`/events/create?eventId=${id}&isUpdate=true`);
+    
+  };
   return (
     <div className="card w-96 bg-base-100 shadow-xl mb-4">
       <div className="card-body">
@@ -21,6 +29,8 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
         <p>Start Time: {eventStartDT?.toLocaleString()}</p>
         <p>End Time: {eventEndDT?.toLocaleString()}</p>
         <div className="card-actions justify-end">
+          <button className="btn btn-outline btn-warning" onClick={handleUpdateButtonClick}>Update</button>
+          <button className="btn btn-outline btn-error">Delete</button>
           <button className="btn btn-outline">Register Now</button>
         </div>
       </div>
