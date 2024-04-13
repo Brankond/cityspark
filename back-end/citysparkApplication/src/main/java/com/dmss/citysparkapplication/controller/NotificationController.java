@@ -6,10 +6,7 @@ import com.dmss.citysparkapplication.service.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cityspark/notification")
@@ -20,13 +17,25 @@ public class NotificationController {
     NotificationService notificationService;
 
     @PutMapping
-    public Result update(@RequestBody Notification notification) {
+    public Result createOrUpdateNotification(@RequestBody Notification notification) {
         try {
-            notificationService.update(notification);
+            notificationService.createOrUpdateNotification(notification);
             log.info("Updated notification with id {}", notification.getId());
             return Result.success();
         } catch (Exception e) {
             log.error("Fail to update notification with id {}, {}", notification.getId(), e.getMessage());
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @PutMapping
+    public Result updateStatus(@RequestBody Notification notification) {
+        try {
+            notificationService.updateStatus(notification.getId(), notification.getStatus());
+            log.info("Updated notification status with id {} to {}", notification.getId(), notification.getStatus());
+            return Result.success();
+        } catch (Exception e) {
+            log.error("Fail to update notification status with id {}, {}", notification.getId(), e.getMessage());
             return Result.error(e.getMessage());
         }
     }
