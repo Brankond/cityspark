@@ -1,33 +1,64 @@
-import { SignupLayoutProps } from "@/types";
+"use client";
+
+import { SignupContextType, SignupLayoutProps, User } from "@/types";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Divider,
+  Button,
+} from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import styles from "./styles.module.css";
 import Link from "next/link";
+import { useState } from "react";
+import { SignupContext } from "@/contexts/SignupContext";
 
 const SignupLayout: React.FC<SignupLayoutProps> = ({ children }) => {
+  const userInit: User = { email: "", password: "" };
+
+  const [user, setUser] = useState<User>(userInit);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+
+  const updateUserData = (data: Partial<User>) => {
+    setUser({ ...user, ...data });
+  };
+
+  const updateFormValidity = (validity: boolean) => {
+    setIsFormValid(validity);
+  };
+
+  const contextValue: SignupContextType = {
+    user,
+    updateUserData,
+    isFormValid,
+    updateFormValidity,
+  };
+
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div
-        className={`flex flex-col justify-between min-w-96 min-h-96 pb-4 pt-9 px-4 rounded-md border border-neutral-300 shadow-2xl ${styles["auth-form"]}`}
-      >
-        <div className="flex flex-row">
-          <Link href="/">
-            <FontAwesomeIcon
-              icon={faAngleLeft}
-              className="h-5 text-neutral-500"
-            />
-          </Link>
-        </div>
-        <div className="flex-1">{children}</div>
-        <div className="border-b border-neutral-200"></div>
-        <div className="flex flex-row justify-end">
-          <button className="group transition-colors px-4 py-3 border-e-4 border-neutral-500 hover:bg-neutral-500 hover:border-lime-300">
-            <h2 className="transition-colors font-bold text-neutral-500 group-hover:text-neutral-100">
-              Next
-            </h2>
-          </button>
-        </div>
-      </div>
+      <SignupContext.Provider value={contextValue}>
+        <Card className="min-w-[25rem]">
+          <CardHeader className="flex gap-3 items-center">
+            <Link href="/" className="flex items-center">
+              <FontAwesomeIcon
+                icon={faAngleLeft}
+                className="h-5 text-neutral-500"
+              />
+            </Link>
+            <p>Signup</p>
+          </CardHeader>
+          <Divider />
+          <CardBody>{children}</CardBody>
+          <Divider />
+          <CardFooter className="flex justify-end">
+            <Button color="primary" isDisabled={!isFormValid}>
+              Sign Up
+            </Button>
+          </CardFooter>
+        </Card>
+      </SignupContext.Provider>
     </div>
   );
 };
