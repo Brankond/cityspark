@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/cityspark/person")
 public class PersonController {
     private final static Logger log = LoggerFactory.getLogger(PersonController.class);
@@ -22,15 +23,15 @@ public class PersonController {
      * @return Result model with person information
      */
     @GetMapping("/{id}")
-    public Result getPerson(@PathVariable Integer id) {
+    public Person getPerson(@PathVariable Integer id) {
 
         try {
             Person person = personService.get(id);
             log.info("Get person information with id {}", id);
-            return Result.success(person);
+            return person;
         } catch (Exception e){
             log.error("Fail to get person detail with id {}, {}", id, e.getMessage());
-            return Result.error(e.getMessage());
+            return null;
         }
     }
 
