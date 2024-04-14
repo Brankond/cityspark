@@ -1,6 +1,5 @@
-#!/bin/bash
-set -xe
-
-# Start Tomcat, the application server.
-cd /opt && sudo chown -R tomcat tomcat/
-systemctl start tomcat
+##!/bin/bash
+#set -xe
+#
+## Start Tomcat, the application server.
+#service tomcat start
