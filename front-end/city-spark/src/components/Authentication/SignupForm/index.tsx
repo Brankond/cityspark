@@ -1,14 +1,11 @@
 import { SignupContext } from "@/contexts/SignupContext";
-import { SignupFormProps } from "@/types";
 import { Input } from "@nextui-org/react";
 import { useContext, useEffect, useMemo, useState } from "react";
+import { validateEmail } from "@/utils/validations/validateEmail";
 
 const EMAIL_ERR_MSG = "Please enter a valid email address";
 const PASSWORD_ERR_MSG = "Password must be at least 8 characters long";
 const CONFIRM_PASSWORD_ERR_MSG = "Passwords do not match";
-
-const validateEmail = (email: string) =>
-  email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
 
 const SignupForm: React.FC = () => {
   const { updateUserData, updateFormValidity } = useContext(SignupContext);
