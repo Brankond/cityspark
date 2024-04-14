@@ -7,13 +7,14 @@ on:
     branches: [ dev ]
 
 env:
-  applicationfolder: back-end/citysparkApplication
+  backendfolder: back-end/citysparkApplication
+  frontendfolder: front-end/city-spark
   AWS_REGION: ap-southeast-1
   S3BUCKET: city-spark-s3
 
 
 jobs:
-  build:
+  build-java:
     name: Build and Package
     runs-on: ubuntu-latest
     permissions:
@@ -40,15 +41,15 @@ jobs:
 
       - name: Build and Package Maven
         id: package
-        working-directory: ${{ env.applicationfolder }}
+        working-directory: ${{ env.backendfolder }}
         run: $GITHUB_WORKSPACE/.github/scripts/build.sh
 
       - name: Upload Artifact to s3
-        working-directory: ${{ env.applicationfolder }}/target
+        working-directory: ${{ env.backendfolder }}/target
         run: aws s3 cp *.war s3://${{ env.S3BUCKET }}/
 
-  deploy:
-    needs: build
+  deploy-java:
+    needs: build-java
     runs-on: ubuntu-latest
     environment: Dev
     permissions:
@@ -65,3 +66,24 @@ jobs:
           echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
           commit_hash=`git rev-parse HEAD`
           aws deploy create-deployment --application-name city-spark --deployment-group-name city-spark-deployment-group --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
+
+  build-next:
+    needs: deploy-java
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Install NPM dependencies
+        working-directory: ${{ env.frontend }}
+        run: npm install
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ AWS_KEY }}
+          aws-secret-access-key: ${{ AWS_SECRET }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Deploy Next.js app
+        working-directory: ${{ env.frontend }}
+        run: npx serverless
