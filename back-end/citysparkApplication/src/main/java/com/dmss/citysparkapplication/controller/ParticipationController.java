@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/cityspark/participation")
 public class ParticipationController {
@@ -24,19 +26,43 @@ public class ParticipationController {
     @Autowired
     ParticipationRepository participationRepo;
 
-    @PostMapping("/register")
-    public boolean registerEvent(@RequestBody Participation participation) { //add organizer or attendee
+    @PostMapping("/registerAsOrganizer/{eventId}{personContactNo}")
+    public Notification registerEventAsOrganizer(@PathVariable Integer eventId, @PathVariable String personContactNo) {
         boolean result = false;
-
+        Notification notification = new Notification();
         try{
-            result = participationService.registerEvent(participation);
-            Notification notification = participationService.sendNotification(participation, true);
+            Participation participation = participationService.registerEventAsOrganizer(eventId, personContactNo);
+            if (participation.getEventId() != null){
+                result = true;
+            }
+            notification = participationService.sendNotification(participation, true);
 
         }catch (Exception e){
             log.error("Fail to register the event for the user, {}", e.getMessage());
         }
 
-        return result;
+        return notification;
+    }
+
+    @PostMapping("/registerAsAttendee")
+    public Notification registerEventAsAttendee(@RequestBody Map<String, String> requestBody) {
+        boolean result = false;
+        Notification notification = new Notification();
+        try{
+            String eventIdString = requestBody.get("eventId");
+            Integer eventId = Integer.parseInt(eventIdString);
+            String personContactNo = requestBody.get("personContactNo");
+            Participation participation = participationService.registerEventAsAttendee(eventId, personContactNo);
+            if (participation.getEventId() != null){
+                result = true;
+            }
+            notification = participationService.sendNotification(participation, true);
+
+        }catch (Exception e){
+            log.error("Fail to register the event for the user, {}", e.getMessage());
+        }
+
+        return notification;
     }
 
     @GetMapping("/reviewallbypersonid/{personId}")
