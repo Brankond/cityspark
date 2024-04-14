@@ -11,11 +11,11 @@ env:
   frontendfolder: front-end/city-spark
   AWS_REGION: ap-southeast-1
   S3BUCKET: city-spark-s3
+  AWS_SDK_LOAD_CONFIG: 1
 
 
 jobs:
   build-java:
-    name: Build and Package
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -62,7 +62,8 @@ jobs:
           role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
           role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
-      - run: |
+      - name:
+        run: |
           echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
           commit_hash=`git rev-parse HEAD`
           aws deploy create-deployment --application-name city-spark --deployment-group-name city-spark-deployment-group --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
