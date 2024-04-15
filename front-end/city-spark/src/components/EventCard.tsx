@@ -28,7 +28,7 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
     router.push(`/events/register?eventId=${id}`);
   };
   return (
-    <div className="card w-96 bg-base-100 shadow-xl mb-4">
+    <div className="card w-96 bg-base-100 shadow-xl mb-4" style={{ width: '800px' }}>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p>Type: {type}</p>

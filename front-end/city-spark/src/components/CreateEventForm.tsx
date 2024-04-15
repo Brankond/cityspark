@@ -1,6 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation'
+import {Input} from "@nextui-org/react";
 
 interface FormData {
   title: string;
@@ -18,7 +20,7 @@ interface CreateEventFormProps {
 }
 
 const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) => {
-  
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     title: '',
     type: '',
@@ -53,7 +55,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) 
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -87,6 +89,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) 
           eventEndDT: new Date(),
           status:'',
         });
+        router.push('/events');
       } else {
         console.error('Failed to create event.');
       }
@@ -101,31 +104,33 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) 
         <div className="label">
           <span className="label-text">Title</span>
         </div>
-        <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="" className="input input-bordered w-96 max-w-xs" />
         <div className="label">
           <span className="label-text">Type</span>
         </div>
-        <input type="text" name="type" value={formData.type} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <input type="text" name="type" value={formData.type} onChange={handleChange} placeholder="" className="input input-bordered w-full max-w-xs" />
         <div className="label">
           <span className="label-text">Description</span>
         </div>
-        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <textarea name="description" value={formData.description} onChange={handleChange} placeholder="" className="textarea textarea-bordered textarea-xs w-full max-w-xs" rows={5}></textarea>
         <div className="label">
           <span className="label-text">Location</span>
         </div>
-        <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="" className="input input-bordered w-full max-w-xs" />
         <div className="label">
           <span className="label-text">Start Time</span>
         </div>
-        <input type="datetime-local" name="eventStartDT" value={formData.eventStartDT?.toLocaleString()} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <input type="datetime-local" name="eventStartDT" value={formData.eventStartDT?.toLocaleString()} onChange={handleChange} placeholder="" className="input input-bordered w-full max-w-xs" />
         <div className="label">
           <span className="label-text">End Time</span>
         </div>
-        <input type="datetime-local" name="eventEndDT" value={formData.eventEndDT?.toLocaleString()} onChange={handleChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <input type="datetime-local" name="eventEndDT" value={formData.eventEndDT?.toLocaleString()} onChange={handleChange} placeholder="" className="input input-bordered w-full max-w-xs" />
       </label>
-      <button type="submit" className='btn btn-outline'>{isUpdate?'Update':'Create'}</button>
+      <div className="card-actions justify-end mt-4">
+        <button type="submit" className='btn btn-outline'>{isUpdate?'Update':'Create'}</button>
+      </div>
     </form>
-    
+
   );
 };
 

@@ -13,10 +13,18 @@ const CreateEventPage: React.FC = () => {
   // Parse isUpdate as a boolean
   const parsedIsUpdate = isUpdate === 'true';
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">{isUpdate?'Update Event':'Create Event'}</h2>
-      <CreateEventForm eventId={parsedEventId} isUpdate={parsedIsUpdate}/>
+    <div className="flex justify-center items-center h-screen ">
+      <div className="max-w-xl w-full mx-auto p-6 bg-white rounded-lg shadow-xl mb-4">
+        <div className="text-center">
+          <h2 className="text-xl font-bold mb-4">{isUpdate?'Update Event':'Create Event'}</h2>
+        </div>
+        <div className="flex justify-center">
+          <CreateEventForm eventId={parsedEventId} isUpdate={parsedIsUpdate}/>
+        </div>
+        
+      </div>
     </div>
+    
   );
 };
 

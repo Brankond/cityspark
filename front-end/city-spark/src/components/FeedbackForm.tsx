@@ -47,7 +47,7 @@ const CreateFeedbackForm: React.FC = () => {
         value={formData.feedback} 
         onChange={handleChange}
       />
-      <button type="submit" className='btn btn-outline'>Submit</button>
+      <button type="submit" className='btn btn-outline mt-4'>Submit</button>
     </form>
 
   );
