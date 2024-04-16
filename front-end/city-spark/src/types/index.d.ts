@@ -5,13 +5,13 @@ export interface User {
 }
 
 /** Layouts */
-export interface SignupLayoutProps {
+export interface LayoutProps {
   children: React.ReactNode;
 }
 
-export interface LoginLayoutProps {
-  children: React.ReactNode;
-}
+export interface SignupLayoutProps extends LayoutProps {}
+
+export interface LoginLayoutProps extends LayoutProps {}
 
 /** Components */
 export interface SignupFormProps {}
