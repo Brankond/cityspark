@@ -1,5 +1,6 @@
 package com.dmss.citysparkapplication.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,13 +18,27 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Person {
     @Id
+    @Column(name = "ID")
     private Integer id;
-    private Integer user_id;
-    private String name;
-    private String contact_no;
-    private String description;
-    private LocalDateTime birthday;
-    private LocalDateTime created_dt;
-    private LocalDateTime updated_dt;
 
+    @Column(name = "USER_ID")
+    private Integer userId;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "CONTACT_NO")
+    private String contactNo;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "BIRTHDAY")
+    private LocalDateTime birthday;
+
+    @Column(name = "CREATED_DT")
+    private LocalDateTime createdDt;
+
+    @Column(name = "UPDATED_DT")
+    private LocalDateTime updatedDt;
 }
