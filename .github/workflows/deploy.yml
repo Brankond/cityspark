@@ -7,14 +7,15 @@ on:
     branches: [ dev ]
 
 env:
-  applicationfolder: back-end/citysparkApplication
+  backendfolder: back-end/citysparkApplication
+  frontendfolder: front-end/city-spark
   AWS_REGION: ap-southeast-1
   S3BUCKET: city-spark-s3
+  AWS_SDK_LOAD_CONFIG: 1
 
 
 jobs:
-  build:
-    name: Build and Package
+  build-java:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -40,15 +41,15 @@ jobs:
 
       - name: Build and Package Maven
         id: package
-        working-directory: ${{ env.applicationfolder }}
+        working-directory: ${{ env.backendfolder }}
         run: $GITHUB_WORKSPACE/.github/scripts/build.sh
 
       - name: Upload Artifact to s3
-        working-directory: ${{ env.applicationfolder }}/target
+        working-directory: ${{ env.backendfolder }}/target
         run: aws s3 cp *.war s3://${{ env.S3BUCKET }}/
 
-  deploy:
-    needs: build
+  deploy-java:
+    needs: build-java
     runs-on: ubuntu-latest
     environment: Dev
     permissions:
@@ -61,7 +62,8 @@ jobs:
           role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
           role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
-      - run: |
+      - name:
+        run: |
           echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
           commit_hash=`git rev-parse HEAD`
           aws deploy create-deployment --application-name city-spark --deployment-group-name city-spark-deployment-group --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
