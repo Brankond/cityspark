@@ -8,24 +8,18 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "NOTIFICATION")
+@Table(name = "FEEDBACK")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notification {
+public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "STATUS")
-    private String status;
-
-    @Column(name = "SUBJECT")
-    private String subject;
-
-    @Column(name = "CONTENT")
-    private String content;
+    @Column(name = "FEEDBACK")
+    private String feedback;
 
     @Column(name = "CREATED_DT")
     private LocalDateTime created_dt = LocalDateTime.now();
