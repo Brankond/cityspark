@@ -15,11 +15,15 @@ const PersonDetails = async () => {
   const res = await fetch('http://localhost:8080/cityspark/person/1');
   const person: Person = await res.json();
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Person Detail</h2>
-      {
-        <PersonCard id={1} />
-      }
+    <div className="flex justify-center items-center h-screen ">
+      <div>
+        <div className="text-center">
+          <h2 className="text-xl font-bold mb-4">Person Detail</h2>
+        </div>
+        <div className="flex justify-center">
+          <PersonCard id={1} />
+        </div>
+      </div>
     </div>
   )
 }

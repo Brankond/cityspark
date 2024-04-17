@@ -76,7 +76,7 @@ const RegisterEventForm: React.FC<RegisterEventFormProps> = ({ eventId }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className="text-xl font-bold mb-4">{"Register Event"}</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">{"Register Event"}</h2>
       <h6>{"Please fill up personal info to register the event"}</h6>
       <label className="form-control w-full max-w-xs">
         <div className="label">
