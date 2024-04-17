@@ -1,3 +1,6 @@
+import { CardProps } from "@nextui-org/react";
+import React from "react";
+
 /** Models */
 export interface User {
   email: string;
@@ -16,6 +19,12 @@ export interface LoginLayoutProps extends LayoutProps {}
 /** Components */
 export interface SignupFormProps {}
 
+export interface AlertCardProps extends CardProps {
+  startContent?: React.ReactNode;
+  alertMessage?: string;
+  endContent?: React.ReactNode;
+}
+
 /** Contexts */
 export interface SignupContextType {
   user: User;
@@ -28,3 +37,6 @@ export interface LoginContextType {
   isFormValid: boolean;
   updateFormValidity: (validity: boolean) => void;
 }
+
+/** Services */
+export type SignupResult = "USER_EXISTS" | boolean | null;

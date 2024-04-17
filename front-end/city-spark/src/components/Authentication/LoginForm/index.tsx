@@ -4,6 +4,7 @@ import { validateEmail } from "@/utils/validations/validateEmail";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons/faTriangleExclamation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginContext } from "@/contexts/LoginContext";
+import AlertCard from "@/components/Common/AlertCard";
 
 const EMAIL_ERR_MSG = "This doesn't look like a valid email address";
 const PASSWORD_ERR_MSG = "Password should be at least 8 characters long";
@@ -42,6 +43,10 @@ const LoginForm: React.FC = () => {
     updateFormValidity(isFormValid);
   }, [isFormValid]);
 
+  const alertIcon = (
+    <FontAwesomeIcon icon={faTriangleExclamation} className="text-rose-500" />
+  );
+
   return (
     <div className="w-full flex flex-col gap-4">
       <Input
@@ -64,15 +69,11 @@ const LoginForm: React.FC = () => {
       />
 
       {/* Authentication failure popup */}
-      <Card className="bg-rose-100 border-rose-500 border hidden">
-        <CardBody className="flex flex-row gap-3 items-center">
-          <FontAwesomeIcon
-            icon={faTriangleExclamation}
-            className="text-rose-500"
-          />
-          <p className="text-rose-700">{CREDENTIAL_ERR_MSG}</p>
-        </CardBody>
-      </Card>
+      <AlertCard
+        startContent={alertIcon}
+        alertMessage={CREDENTIAL_ERR_MSG}
+        className="hidden"
+      />
     </div>
   );
 };

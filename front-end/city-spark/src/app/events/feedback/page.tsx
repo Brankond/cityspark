@@ -8,7 +8,7 @@ interface Feedback {
 }
 
 const FeedbackList = async () => {
-  const res = await fetch(`http://52.221.238.193:8080/cityspark/feedback/reviewall?${Date.now()}`);
+  const res = await fetch(`http://localhost:8080/cityspark/feedback/reviewall?${Date.now()}`);
   const datas: Feedback[] = await res.json();
   return (
     <div className="flex justify-center">

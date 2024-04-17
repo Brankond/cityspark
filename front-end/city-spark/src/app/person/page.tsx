@@ -12,7 +12,7 @@ interface Person {
 }
 
 const PersonDetails = async () => {
-  const res = await fetch('http://52.221.238.193:8080/cityspark/person/1');
+  const res = await fetch('http://localhost:8080/cityspark/person/1');
   const person: Person = await res.json();
   return (
     <div className="flex justify-center items-center h-screen ">

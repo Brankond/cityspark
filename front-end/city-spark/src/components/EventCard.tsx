@@ -20,7 +20,7 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
     
   };
   const handleDeleteButtonClick = async() => {
-    const res = await fetch(`http://52.221.238.193:8080/cityspark/event/delete/${id}`)
+    const res = await fetch(`http://localhost:8080/cityspark/event/delete/${id}`)
     window.location.reload();
 
   };
