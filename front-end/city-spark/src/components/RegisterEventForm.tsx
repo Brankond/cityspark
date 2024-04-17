@@ -23,7 +23,9 @@ const RegisterEventForm: React.FC<RegisterEventFormProps> = ({ eventId }) => {
         personContactNo: '',
     });
     useEffect(() => {
-        fetchEventTitle(eventId);
+        if (eventId){
+            fetchEventTitle(eventId);
+        }
     }, [eventId]);
 
     const fetchEventTitle = async (id: number) => {
