@@ -89,7 +89,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) 
           eventEndDT: new Date(),
           status:'',
         });
-        router.push('/events');
+        router.push('/content/events');
       } else {
         console.error('Failed to create event.');
       }

@@ -16,7 +16,7 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
   const router = useRouter();
   const handleUpdateButtonClick = () => {
     // Navigate to the update page and pass eventId and isUpdate
-    router.push(`/events/create?eventId=${id}&isUpdate=true`);
+    router.push(`/content/events/create?eventId=${id}&isUpdate=true`);
     
   };
   const handleDeleteButtonClick = async() => {
@@ -25,7 +25,7 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
 
   };
   const handleRegisterButtonClick = () => {
-    router.push(`/events/register?eventId=${id}`);
+    router.push(`/content/events/register?eventId=${id}`);
   };
   return (
     <div className="card w-96 bg-base-100 shadow-xl mb-4" style={{ width: '800px' }}>
