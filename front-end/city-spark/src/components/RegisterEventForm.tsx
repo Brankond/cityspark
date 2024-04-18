@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@nextui-org/react";
 import axios from "axios";
+import { DOMAIN } from "@/constants/ConnectionConstants";
 
 interface FormData {
   eventId: string;
@@ -32,7 +33,7 @@ const RegisterEventForm: React.FC<RegisterEventFormProps> = ({ eventId }) => {
 
     try {
       const response = await axios.get(
-        `http://52.221.238.193:8080/cityspark/event/review/${id}`
+        `${DOMAIN}/cityspark/event/review/${id}`
       );
       const eventData = response.data;
       setFormData({
@@ -62,7 +63,7 @@ const RegisterEventForm: React.FC<RegisterEventFormProps> = ({ eventId }) => {
       let response;
       console.log(formData.personContactNo);
       response = await axios.post(
-        `http://52.221.238.193:8080/cityspark/participation/registerAsAttendee`,
+        `${DOMAIN}/cityspark/participation/registerAsAttendee`,
         requestBody
       );
 
