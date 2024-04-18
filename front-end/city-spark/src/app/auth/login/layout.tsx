@@ -30,7 +30,6 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({ children }) => {
   return (
     <div className="w-screen h-screen flex justify-center items-center">
       <LoginContext.Provider value={contextValue}>
-        {" "}
         <Card className="min-w-[25rem]">
           <CardHeader className="flex gap-3 items-center">
             <Link href="/" className="flex items-center">

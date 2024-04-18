@@ -79,7 +79,7 @@ const SignupLayout: React.FC<SignupLayoutProps> = ({ children }) => {
     console.log(signupResult, typeof signupResult);
 
     if (signupResult === true) {
-      router.push("/events");
+      router.push("/content/events");
     }
   }, [signupResult]);
 

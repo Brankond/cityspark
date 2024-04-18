@@ -8,6 +8,7 @@ import com.dmss.citysparkapplication.utils.DateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<User> getUserByEmail(String email) {
@@ -32,7 +36,7 @@ public class UserServiceImpl implements UserService {
         String currentDateTimeString = DateTimeUtil.getCurrentDateTimeString();
 
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setCreatedDate(currentDateTimeString);
         newUser.setUpdatedDate(currentDateTimeString);
 
