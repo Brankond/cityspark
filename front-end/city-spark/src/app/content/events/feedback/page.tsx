@@ -1,5 +1,6 @@
 import FeedbackCard from '@/components/FeedbackCard';
 import CreateFeedbackForm from '@/components/FeedbackForm';
+import { DOMAIN } from '@/constants/ConnectionConstants';
 import React from 'react'
 
 interface Feedback {
@@ -8,7 +9,7 @@ interface Feedback {
 }
 
 const FeedbackList = async () => {
-  const res = await fetch(`http://52.221.238.193:8080/cityspark/feedback/reviewall?${Date.now()}`);
+  const res = await fetch(`${DOMAIN}}/cityspark/feedback/reviewall?${Date.now()}`);
   const datas: Feedback[] = await res.json();
   return (
     <div className="flex justify-center">
