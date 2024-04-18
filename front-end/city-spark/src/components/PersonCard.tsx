@@ -36,7 +36,7 @@ const PersonCard: React.FC<PersonId> = ({ id }) => {
 
   const fetchPersonDetails = async (id: number) => {
     try {
-      const response = await axios.get(`http://localhost:8080/cityspark/person/${id}`);
+      const response = await axios.get(`http://52.221.238.193:8080/cityspark/person/${id}`);
       const personDetails = response.data;
       setFormData({
         userId: personDetails.userId,

@@ -32,7 +32,7 @@ const RegisterEventForm: React.FC<RegisterEventFormProps> = ({ eventId }) => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8080/cityspark/event/review/${id}`
+        `http://52.221.238.193:8080/cityspark/event/review/${id}`
       );
       const eventData = response.data;
       setFormData({
@@ -62,7 +62,7 @@ const RegisterEventForm: React.FC<RegisterEventFormProps> = ({ eventId }) => {
       let response;
       console.log(formData.personContactNo);
       response = await axios.post(
-        `http://localhost:8080/cityspark/participation/registerAsAttendee`,
+        `http://52.221.238.193:8080/cityspark/participation/registerAsAttendee`,
         requestBody
       );
 
