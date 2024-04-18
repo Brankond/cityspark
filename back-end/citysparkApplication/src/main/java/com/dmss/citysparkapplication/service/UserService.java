@@ -2,6 +2,7 @@ package com.dmss.citysparkapplication.service;
 
 import com.dmss.citysparkapplication.dto.UserDTO;
 import com.dmss.citysparkapplication.model.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
