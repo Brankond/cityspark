@@ -1,4 +1,5 @@
 import EventCard from '@/components/EventCard';
+import { DOMAIN } from '@/constants/ConnectionConstants';
 import React from 'react'
 
 interface Event {
@@ -12,7 +13,7 @@ interface Event {
 }
 
 const EventList = async () => {
-  const res = await fetch(`http://localhost:8080/cityspark/event/reviewall?${Date.now()}`);
+  const res = await fetch(`${DOMAIN}/cityspark/event/reviewall?${Date.now()}`);
   const events: Event[] = await res.json();
   return (
     <div className="flex justify-center">

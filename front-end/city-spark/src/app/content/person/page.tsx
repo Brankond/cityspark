@@ -1,6 +1,7 @@
 import PersonCard from '@/components/PersonCard';
 import React from 'react'
 import { useSearchParams } from 'next/navigation';
+import { DOMAIN } from '@/constants/ConnectionConstants';
 
 interface Person {
     id: number;
@@ -12,7 +13,7 @@ interface Person {
 }
 
 const PersonDetails = async () => {
-  const res = await fetch('http://localhost:8080/cityspark/person/1');
+  const res = await fetch(`${DOMAIN}/cityspark/person/1`);
   const person: Person = await res.json();
   return (
     <div className="flex justify-center items-center h-screen ">
