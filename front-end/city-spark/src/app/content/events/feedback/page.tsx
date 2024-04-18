@@ -9,7 +9,7 @@ interface Feedback {
 }
 
 const FeedbackList = async () => {
-  const res = await fetch(`${DOMAIN}}/cityspark/feedback/reviewall?${Date.now()}`);
+  const res = await fetch(`${DOMAIN}/cityspark/feedback/reviewall?${Date.now()}`);
   const datas: Feedback[] = await res.json();
   return (
     <div className="flex justify-center">

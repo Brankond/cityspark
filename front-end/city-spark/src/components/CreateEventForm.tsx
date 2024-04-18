@@ -76,7 +76,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) 
         response = await axios.post(`${DOMAIN}/cityspark/event/update/${eventId}`, formDataWithStatus);
       } else {
         // Create new event
-        response = await axios.post('${DOMAIN}/cityspark/event/create', formDataWithStatus);
+        response = await axios.post(`${DOMAIN}/cityspark/event/create`, formDataWithStatus);
       }
       if (response.data) {
         console.log(isUpdate ? 'Event updated successfully!' : 'Event created successfully!');
