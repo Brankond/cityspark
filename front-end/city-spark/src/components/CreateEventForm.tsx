@@ -39,8 +39,8 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) 
 
   const fetchEventData = async (id: number) => {
     try {
-      const response = await axios.get(`http://localhost:8080/cityspark/event/review/${id}`);
-      const eventData = response.data;
+      const response = await fetch(`http://localhost:8080/cityspark/event/review/${id}`);
+      const eventData = await response.json()
       setFormData({
         title: eventData.title,
         type: eventData.type,
