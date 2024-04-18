@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {Textarea} from "@nextui-org/react";
+import { DOMAIN } from '@/constants/ConnectionConstants';
 
 const CreateFeedbackForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const CreateFeedbackForm: React.FC = () => {
       const formDataWithStatus = {
         ...formData,
       };
-      const response = await axios.post('http://localhost:8080/cityspark/feedback/create', formDataWithStatus);
+      const response = await axios.post(`${DOMAIN}/cityspark/feedback/create`, formDataWithStatus);
       if (response.data) {
         console.log('Event created successfully!');
         // Reset form fields after successful submission

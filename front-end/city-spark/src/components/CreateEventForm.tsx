@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation'
 import {Input} from "@nextui-org/react";
+import { DOMAIN } from '@/constants/ConnectionConstants';
 
 interface FormData {
   title: string;
@@ -39,7 +40,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) 
 
   const fetchEventData = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:8080/cityspark/event/review/${id}`);
+      const response = await fetch(`${DOMAIN}/cityspark/event/review/${id}`);
       const eventData = await response.json()
       setFormData({
         title: eventData.title,
@@ -72,10 +73,10 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ eventId, isUpdate }) 
       let response;
       if (isUpdate && eventId) {
         // Update existing event
-        response = await axios.post(`http://localhost:8080/cityspark/event/update/${eventId}`, formDataWithStatus);
+        response = await axios.post(`${DOMAIN}/cityspark/event/update/${eventId}`, formDataWithStatus);
       } else {
         // Create new event
-        response = await axios.post('http://localhost:8080/cityspark/event/create', formDataWithStatus);
+        response = await axios.post('${DOMAIN}/cityspark/event/create', formDataWithStatus);
       }
       if (response.data) {
         console.log(isUpdate ? 'Event updated successfully!' : 'Event created successfully!');

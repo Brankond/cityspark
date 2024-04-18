@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation'
+import { DOMAIN } from '@/constants/ConnectionConstants';
 
 interface Event {
   id: number;
@@ -20,7 +21,7 @@ const EventCard: React.FC<Event> = ({ id, title, type, location, description, ev
     
   };
   const handleDeleteButtonClick = async() => {
-    const res = await fetch(`http://localhost:8080/cityspark/event/delete/${id}`)
+    const res = await fetch(`${DOMAIN}/cityspark/event/delete/${id}`)
     window.location.reload();
 
   };

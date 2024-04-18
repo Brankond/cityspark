@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 // import { useRouter } from 'next/navigation'
 import axios from 'axios';
+import { DOMAIN } from '@/constants/ConnectionConstants';
 
 interface FormData {
   userId: string;
@@ -36,7 +37,7 @@ const PersonCard: React.FC<PersonId> = ({ id }) => {
 
   const fetchPersonDetails = async (id: number) => {
     try {
-      const response = await axios.get(`http://localhost:8080/cityspark/person/${id}`);
+      const response = await axios.get(`${DOMAIN}/cityspark/person/${id}`);
       const personDetails = response.data;
       setFormData({
         userId: personDetails.userId,
