@@ -2,9 +2,9 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
   pull_request:
-    branches: [ dev ]
+    branches: [ main ]
 
 env:
   backendfolder: back-end/citysparkApplication

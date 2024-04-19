@@ -8,11 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(exposedHeaders = {"Access-Control-Allow-Origin","Access-Control-Allow-Credentials"})
 @RestController
 @RequestMapping("/cityspark/event")
 public class EventController {
@@ -60,7 +63,12 @@ public class EventController {
     }
 
     @GetMapping("/reviewall")
-    public List<Event> reviewAllEvent() {
+    public ResponseEntity<List<Event>> reviewAllEvent() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setCacheControl("no-cache, no-store, must-revalidate");
+        headers.setPragma("no-cache");
+        headers.setExpires(0);
+
         List<Event> searchedEvents = new ArrayList<>();
 
         try{
@@ -68,7 +76,9 @@ public class EventController {
         }catch (Exception e){
             log.error("Fail to fetch the event list from database, {}", e.getMessage());
         }
-        return searchedEvents;
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(searchedEvents);
     }
 
     @GetMapping("/delete/{id}")
