@@ -33,3 +33,10 @@ export class SignupService {
     return VERIFY_EMAIL_SUCCESS;
   }
 }
+
+/** Login Service */
+export class LoginService {
+  async login(user: User): Promise<boolean> {
+    return true;
+  }
+}

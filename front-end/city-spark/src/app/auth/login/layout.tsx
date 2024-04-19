@@ -15,6 +15,8 @@ import { LoginContextType, LoginLayoutProps } from "@/types";
 import { LoginContext } from "@/contexts/LoginContext";
 import { useState } from "react";
 
+/** Handlers */
+
 const LoginLayout: React.FC<LoginLayoutProps> = ({ children }) => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
