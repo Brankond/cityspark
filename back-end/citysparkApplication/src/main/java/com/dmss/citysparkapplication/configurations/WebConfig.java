@@ -10,6 +10,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-                .exposedHeaders(new String[]{"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"});
+                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials");
     }
 }
