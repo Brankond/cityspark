@@ -11,7 +11,7 @@ const PASSWORD_ERR_MSG = "Password should be at least 8 characters long";
 const CREDENTIAL_ERR_MSG = "The email and password don't seem right";
 
 const LoginForm: React.FC = () => {
-  const { updateFormValidity } = useContext(LoginContext);
+  const { updateCredentials, updateFormValidity } = useContext(LoginContext);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -38,14 +38,23 @@ const LoginForm: React.FC = () => {
     return password === "" ? false : !isPasswordValid;
   }, [password, isPasswordValid]);
 
+  // Update credentials
+  useEffect(() => {
+    if (isEmailValid) {
+      updateCredentials({ email });
+    }
+  }, [isEmailValid, email]);
+
+  useEffect(() => {
+    if (isPasswordValid) {
+      updateCredentials({ password });
+    }
+  }, [isPasswordValid, password]);
+
   // Update form validity
   useEffect(() => {
     updateFormValidity(isFormValid);
   }, [isFormValid]);
-
-  const alertIcon = (
-    <FontAwesomeIcon icon={faTriangleExclamation} className="text-rose-500" />
-  );
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -66,13 +75,6 @@ const LoginForm: React.FC = () => {
         onValueChange={setPassword}
         color={displayPasswordError ? "danger" : "default"}
         errorMessage={displayPasswordError && PASSWORD_ERR_MSG}
-      />
-
-      {/* Authentication failure popup */}
-      <AlertCard
-        startContent={alertIcon}
-        alertMessage={CREDENTIAL_ERR_MSG}
-        className="hidden"
       />
     </div>
   );

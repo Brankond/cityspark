@@ -2,8 +2,13 @@ import {
   USER_EXISTS,
   VERIFY_EMAIL_SUCCESS,
 } from "@/constants/AuthenticationConstants";
-import { CREATE_API, DOMAIN, USER_API } from "@/constants/ConnectionConstants";
-import { SignupResult, User } from "@/types";
+import {
+  CREATE_API,
+  DOMAIN,
+  USER_API,
+  AUTH_API,
+} from "@/constants/ConnectionConstants";
+import { LoginResult, SignupResult, User } from "@/types";
 import axios from "axios";
 
 /** Sign up services */
@@ -36,7 +41,9 @@ export class SignupService {
 
 /** Login Service */
 export class LoginService {
-  async login(user: User): Promise<boolean> {
-    return true;
+  async login(user: User): Promise<LoginResult> {
+    const response = await axios.post(DOMAIN + USER_API + AUTH_API, user);
+
+    return response.data as LoginResult;
   }
 }

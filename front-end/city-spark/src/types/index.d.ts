@@ -34,9 +34,12 @@ export interface SignupContextType {
 }
 
 export interface LoginContextType {
+  credentials: User;
+  updateCredentials: (data: Partial<User>) => void;
   isFormValid: boolean;
   updateFormValidity: (validity: boolean) => void;
 }
 
 /** Services */
 export type SignupResult = "USER_EXISTS" | boolean | null;
+export type LoginResult = "User authenticated" | "Authentication failed" | null;
