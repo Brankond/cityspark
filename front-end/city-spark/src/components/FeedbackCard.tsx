@@ -12,7 +12,6 @@ const FeedbackCard: React.FC<Feedback> = ({ id, feedback }) => {
   return (
     <div className="card w-96 bg-base-100 shadow-xl mb-4" style={{ width: '800px' }}>
       <div className="card-body">
-        <h2 className="card-title">user_name</h2>
         <p>{feedback}</p>
       </div>
     </div>
