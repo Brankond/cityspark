@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(exposedHeaders = {"Access-Control-Allow-Origin","Access-Control-Allow-Credentials"})
 @RequestMapping("/cityspark/notification")
 public class NotificationController {
     private final static Logger log = LoggerFactory.getLogger(PersonController.class);
