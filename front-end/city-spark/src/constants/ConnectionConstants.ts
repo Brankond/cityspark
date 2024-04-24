@@ -1,4 +1,4 @@
-export const DOMAIN = "http://13.215.162.39:8080";
+export const DOMAIN = "http://13.229.105.0:8080";
 
 /** User API */
 export const USER_API = "/cityspark/user";
