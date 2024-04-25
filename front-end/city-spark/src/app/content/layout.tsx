@@ -6,8 +6,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <Navigation/>
+    <div className="flex flex-col gap-4">
+      <Navigation />
       {children}
     </div>
   );
