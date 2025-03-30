@@ -12,58 +12,101 @@ env:
   AWS_REGION: ap-southeast-1
   S3BUCKET: city-spark-s3
   AWS_SDK_LOAD_CONFIG: 1
-
+  FRONTEND_ECR: cityspark/cityspark-ecr
+  BACKEND_ECR: cityspark/cityspark-app
 
 jobs:
-  build-java:
+  build-frontend:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v2
-        name: Checkout Repository
-
-      - uses: aws-actions/configure-aws-credentials@v1
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies
+        working-directory: ${{ env.frontendfolder }}
+        run: npm install
+        
+      - name: Build Frontend
+        working-directory: ${{ env.frontendfolder }}
+        run: npm run build
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
-          role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
+          
+      - name: Upload Frontend Build to S3
+        working-directory: ${{ env.frontendfolder }}/build
+        run: aws s3 sync . s3://${{ env.S3BUCKET }}/frontend --delete
+          
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        
+      - name: Build and push Docker image for Frontend
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t $ECR_REGISTRY/${{ env.FRONTEND_ECR }}:${{ github.sha }} ${{ env.frontendfolder }}
+          docker push $ECR_REGISTRY/${{ env.FRONTEND_ECR }}:${{ github.sha }}
 
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
       - name: Set up JDK 21
         uses: actions/setup-java@v1
         with:
           java-version: '21'
-          distribution: 'adopt'
-
-      - name: chmod
-        run: chmod -R +x ./.github
-
-      - name: Build and Package Maven
-        id: package
+          
+      - name: Build Backend
         working-directory: ${{ env.backendfolder }}
-        run: $GITHUB_WORKSPACE/.github/scripts/build.sh
-
-      - name: Upload Artifact to s3
+        run: mvn clean package -DskipTests
+        
+      - name: Upload Backend Artifact to S3
         working-directory: ${{ env.backendfolder }}/target
-        run: aws s3 cp *.war s3://${{ env.S3BUCKET }}/
-
-  deploy-java:
-    needs: build-java
-    runs-on: ubuntu-latest
-    environment: Dev
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v2
-      - uses: aws-actions/configure-aws-credentials@v1
+        run: aws s3 cp *.war s3://${{ env.S3BUCKET }}/backend/
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
-          role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
-      - name:
+          
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        
+      - name: Build and push Docker image for Backend
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
-          commit_hash=`git rev-parse HEAD`
-          aws deploy create-deployment --application-name city-spark --deployment-group-name city-spark-deployment-group --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
+          docker build -t $ECR_REGISTRY/${{ env.BACKEND_ECR }}:${{ github.sha }} ${{ env.backendfolder }}
+          docker push $ECR_REGISTRY/${{ env.BACKEND_ECR }}:${{ github.sha }}
+
+  deploy:
+    needs: [build-frontend, build-backend]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
+          aws-region: ${{ env.AWS_REGION }}
+          
+      - name: Update ECS services
+        run: |
+          # Replace 'city-spark-cluster' with your ECS cluster name
+          # Replace 'frontend-service' with your frontend service name
+          aws ecs update-service --cluster city-spark-cluster --service frontend-service --force-new-deployment
+          # Replace 'city-spark-cluster' with your ECS cluster name
+          # Replace 'backend-service' with your backend service name
+          aws ecs update-service --cluster city-spark-cluster --service backend-service --force-new-deployment
